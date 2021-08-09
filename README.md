@@ -1,5 +1,5 @@
 ## YMMEPM
 
-Altera MAX II EPM1270/EPM570/EPM240 TQFP100/TQFP144 board. 
+Board with Altera MAX II EPM1270/EPM570/EPM240 TQFP100/TQFP144. 
 
-Can be used as CPLD dev board, tiny PS2/UART keyboard(with proper firmware), PMOD module, perfboard, and more!
+Design to be used as CPLD dev board, tiny keyboard, PMOD module, perfboard, Arduino shield, handhold LCD screen terminal, and more!

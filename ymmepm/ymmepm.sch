@@ -585,17 +585,6 @@ F 3 "~" H 2900 10450 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Device:R R1
-U 1 1 61327702
-P 9000 1100
-F 0 "R1" V 8950 1200 50  0000 L CNN
-F 1 "R" V 8950 950 50  0000 L CNN
-F 2 "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder" V 8930 1100 50  0001 C CNN
-F 3 "~" H 9000 1100 50  0001 C CNN
-	1    9000 1100
-	0    1    1    0   
-$EndComp
-$Comp
 L Device:R R2
 U 1 1 6132F1B2
 P 9000 1200
@@ -629,14 +618,14 @@ F 3 "~" H 9000 1400 50  0001 C CNN
 	0    1    1    0   
 $EndComp
 Wire Wire Line
-	9150 1100 9400 1100
+	9150 1500 9400 1500
 Wire Wire Line
 	9150 1200 9400 1200
 Wire Wire Line
 	9150 1300 9400 1300
 Wire Wire Line
 	9150 1400 9400 1400
-Text Label 9300 1100 0    50   ~ 0
+Text Label 9300 1500 0    50   ~ 0
 TCK
 Text Label 9300 1200 0    50   ~ 0
 TDO
@@ -2137,50 +2126,6 @@ F 3 "~" H 15750 2600 50  0001 C CNN
 	1    15750 2600
 	1    0    0    -1  
 $EndComp
-$Comp
-L Connector_Generic:Conn_02x10_Odd_Even J5
-U 1 1 6233CC86
-P 1050 9050
-F 0 "J5" H 1100 9667 50  0000 C CNN
-F 1 "DUMMY" H 1100 9576 50  0000 C CNN
-F 2 "ymm:PinHeader_2x10_P2.54mm_Vertical_BARE" H 1050 9050 50  0001 C CNN
-F 3 "~" H 1050 9050 50  0001 C CNN
-	1    1050 9050
-	1    0    0    -1  
-$EndComp
-$Comp
-L Connector_Generic:Conn_02x10_Odd_Even J7
-U 1 1 62340098
-P 1600 9050
-F 0 "J7" H 1650 9667 50  0000 C CNN
-F 1 "DUMMY" H 1650 9576 50  0000 C CNN
-F 2 "ymm:PinHeader_2x10_P2.54mm_Vertical_BARE" H 1600 9050 50  0001 C CNN
-F 3 "~" H 1600 9050 50  0001 C CNN
-	1    1600 9050
-	1    0    0    -1  
-$EndComp
-$Comp
-L Connector_Generic:Conn_02x10_Odd_Even J8
-U 1 1 623410D4
-P 2150 9050
-F 0 "J8" H 2200 9667 50  0000 C CNN
-F 1 "DUMMY" H 2200 9576 50  0000 C CNN
-F 2 "ymm:PinHeader_2x10_P2.54mm_Vertical_BARE" H 2150 9050 50  0001 C CNN
-F 3 "~" H 2150 9050 50  0001 C CNN
-	1    2150 9050
-	1    0    0    -1  
-$EndComp
-$Comp
-L Connector_Generic:Conn_02x10_Odd_Even J12
-U 1 1 62341DF8
-P 2700 9050
-F 0 "J12" H 2750 9667 50  0000 C CNN
-F 1 "DUMMY" H 2750 9576 50  0000 C CNN
-F 2 "ymm:PinHeader_2x10_P2.54mm_Vertical_BARE" H 2700 9050 50  0001 C CNN
-F 3 "~" H 2700 9050 50  0001 C CNN
-	1    2700 9050
-	1    0    0    -1  
-$EndComp
 Connection ~ 2800 5000
 $Comp
 L CPLD_Altera:EPM1270T144 U1
@@ -2923,8 +2868,6 @@ Text Label 8500 10150 0    50   ~ 0
 IO140
 Text Label 8500 10250 0    50   ~ 0
 IO141
-Text Label 9150 10550 0    50   ~ 0
-IO142
 Text Label 8500 9850 0    50   ~ 0
 IO142
 Text Label 5950 7150 0    50   ~ 0
@@ -4787,10 +4730,6 @@ Text Label 1900 7000 0    50   ~ 0
 IO108
 Text Label 1900 7150 0    50   ~ 0
 IO109
-Text Label 1550 7350 0    50   ~ 0
-IO110
-Text Label 1300 7550 0    50   ~ 0
-IO111
 $Comp
 L Connector_Generic:Conn_01x01 J34
 U 1 1 61459379
@@ -4903,4 +4842,76 @@ Text Label 1900 7600 0    50   ~ 0
 IO86
 Text Label 1900 7750 0    50   ~ 0
 IO87
+$Comp
+L power:GND #PWR0179
+U 1 1 6137F5F1
+P 8800 1550
+F 0 "#PWR0179" H 8800 1300 50  0001 C CNN
+F 1 "GND" H 8805 1377 50  0000 C CNN
+F 2 "" H 8800 1550 50  0001 C CNN
+F 3 "" H 8800 1550 50  0001 C CNN
+	1    8800 1550
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R1
+U 1 1 61327702
+P 9000 1500
+F 0 "R1" V 8950 1600 50  0000 L CNN
+F 1 "R" V 8950 1350 50  0000 L CNN
+F 2 "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder" V 8930 1500 50  0001 C CNN
+F 3 "~" H 9000 1500 50  0001 C CNN
+	1    9000 1500
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	8850 1500 8800 1500
+Wire Wire Line
+	8800 1500 8800 1550
+$Comp
+L Device:R R36
+U 1 1 6149A5F5
+P 11000 6950
+F 0 "R36" V 10900 6850 50  0000 C CNN
+F 1 "R" V 10900 7050 50  0000 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder" V 10930 6950 50  0001 C CNN
+F 3 "~" H 11000 6950 50  0001 C CNN
+	1    11000 6950
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:LED D4
+U 1 1 6149A5FC
+P 11300 6950
+F 0 "D4" H 11293 6695 50  0000 C CNN
+F 1 "LED" H 11293 6786 50  0000 C CNN
+F 2 "LED_SMD:LED_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 11300 6950 50  0001 C CNN
+F 3 "~" H 11300 6950 50  0001 C CNN
+	1    11300 6950
+	-1   0    0    1   
+$EndComp
+$Comp
+L power:GND #PWR02
+U 1 1 6149A602
+P 11450 6950
+F 0 "#PWR02" H 11450 6700 50  0001 C CNN
+F 1 "GND" H 11455 6777 50  0000 C CNN
+F 2 "" H 11450 6950 50  0001 C CNN
+F 3 "" H 11450 6950 50  0001 C CNN
+	1    11450 6950
+	0    -1   -1   0   
+$EndComp
+$Comp
+L power:+3.3V #PWR01
+U 1 1 61522014
+P 10750 6950
+F 0 "#PWR01" H 10750 6800 50  0001 C CNN
+F 1 "+3.3V" H 10765 7123 50  0000 C CNN
+F 2 "" H 10750 6950 50  0001 C CNN
+F 3 "" H 10750 6950 50  0001 C CNN
+	1    10750 6950
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	10750 6950 10850 6950
 $EndSCHEMATC
