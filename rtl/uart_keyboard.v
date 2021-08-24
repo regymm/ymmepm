@@ -51,7 +51,7 @@ module uart_keyboard
 	wire rxclk_en;
 	baud_rate_gen #(
 		.CLOCK_FREQ(30000000),
-		.BAUD_RATE(115200),
+		.BAUD_RATE(19200),
 		.SAMPLE_MULTIPLIER(8)
 	) baud_rate_gen_inst(
 		.clk(clk),
@@ -84,7 +84,12 @@ module keyscan
 	reg [4:0]sftreg = 5'b01111;
 	reg [4:0]sftreg_npress = 5'b11111;
 	assign x = sftreg;
-	assign nopress = &y[14:0];
+	//assign nopress = &y[14:0];
+	assign nopress = &y_r2[14:0];
+	reg [4:0]x_r1;
+	reg [4:0]x_r2;
+	reg [14:0]y_r1;
+	reg [14:0]y_r2;
 	always @ (posedge clk) begin
 		//clken <= clken + 1;
 		//if (clken[3]) begin
@@ -92,9 +97,13 @@ module keyscan
 			sftreg_npress <= {sftreg_npress[3:0], nopress};
 			//if (nopress) sftreg <= {sftreg[3:0], sftreg[4]};
 		//end
+		x_r1 <= sftreg;
+		x_r2 <= x_r1;
+		y_r1 <= y;
+		y_r2 <= y_r1;
 	end
 
-	assign dbg = y[1];
+	assign dbg = y_r2[9];
 
 	assign xa = 0;
 	wire m_nopress = &ya;
@@ -102,26 +111,26 @@ module keyscan
 	//assign kpress = !nopress | (0 & !m_nopress);
 	assign kpress = !(&sftreg_npress) | (0 & !m_nopress);
 	wire [2:0]kcodebase_x =
-		x[0] == 0 ? 3'b001 :
-		x[1] == 0 ? 3'b010 : 
-		x[2] == 0 ? 3'b011 : 
-		x[3] == 0 ? 3'b100 : 
-		x[4] == 0 ? 3'b101 : 3'b000;
+		x_r2[0] == 0 ? 3'b001 :
+		x_r2[1] == 0 ? 3'b010 : 
+		x_r2[2] == 0 ? 3'b011 : 
+		x_r2[3] == 0 ? 3'b100 : 
+		x_r2[4] == 0 ? 3'b101 : 3'b000;
 	wire [3:0]kcodebase_y = 
-		y[0] == 0 ? 4'b0000 : 
-		y[1] == 0 ? 4'b0001 :
-		y[2] == 0 ? 4'b0010 :
-		y[3] == 0 ? 4'b0011 :
-		y[4] == 0 ? 4'b0100 :
-		y[5] == 0 ? 4'b0101 :
-		y[6] == 0 ? 4'b0110 :
-		y[7] == 0 ? 4'b0111 :
-		y[8] == 0 ? 4'b1000 :
-		y[9] == 0 ? 4'b1001 :
-		y[10] == 0 ? 4'b1010 :
-		y[11] == 0 ? 4'b1011 :
-		y[12] == 0 ? 4'b1100 :
-		y[13] == 0 ? 4'b1101 : 4'b1111;
+		y_r2[0] == 0 ? 4'b0000 : 
+		y_r2[1] == 0 ? 4'b0001 :
+		y_r2[2] == 0 ? 4'b0010 :
+		y_r2[3] == 0 ? 4'b0011 :
+		y_r2[4] == 0 ? 4'b0100 :
+		y_r2[5] == 0 ? 4'b0101 :
+		y_r2[6] == 0 ? 4'b0110 :
+		y_r2[7] == 0 ? 4'b0111 :
+		y_r2[8] == 0 ? 4'b1000 :
+		y_r2[9] == 0 ? 4'b1001 :
+		y_r2[10] == 0 ? 4'b1010 :
+		y_r2[11] == 0 ? 4'b1011 :
+		y_r2[12] == 0 ? 4'b1100 :
+		y_r2[13] == 0 ? 4'b1101 : 4'b1111;
 	always @ (posedge clk) begin
 		if (!nopress) kcodebase <= {1'b0, 
 		!ya[5], !ya[4], !ya[3], !ya[2], !ya[1], !ya[0], 
@@ -229,30 +238,31 @@ module keydecode
 	end
 	always @ (*) begin
 		kcodereal = kcr_1;
-		//if (shift) begin
-			//if (kcr_1 >= 8'h61 & kcr_1 <= 8'h7D) kcodereal = kcr_1 - 8'h20;
-			//else if (kcr_1 == 8'h31) kcodereal = 8'h21;
-			//else if (kcr_1 == 8'h32) kcodereal = 8'h40;
-			//else if (kcr_1 == 8'h33) kcodereal = 8'h23;
-			//else if (kcr_1 == 8'h34) kcodereal = 8'h24;
-			//else if (kcr_1 == 8'h35) kcodereal = 8'h25;
-			//else if (kcr_1 == 8'h36) kcodereal = 8'h5E;
-			//else if (kcr_1 == 8'h37) kcodereal = 8'h26;
-			//else if (kcr_1 == 8'h38) kcodereal = 8'h2A;
-			//else if (kcr_1 == 8'h39) kcodereal = 8'h28;
-			//else if (kcr_1 == 8'h30) kcodereal = 8'h29;
-			//else if (kcr_1 == 8'h2D) kcodereal = 8'h5F;
-			//else if (kcr_1 == 8'h3D) kcodereal = 8'h2B;
+		if (ctrl) kcodereal = {2'b0, kcr_1[5:0]};
+		else if (shift) begin
+			if (kcr_1 >= 8'h61 & kcr_1 <= 8'h7D) kcodereal = kcr_1 - 8'h20;
+			else if (kcr_1 == 8'h31) kcodereal = 8'h21;
+			else if (kcr_1 == 8'h32) kcodereal = 8'h40;
+			else if (kcr_1 == 8'h33) kcodereal = 8'h23;
+			else if (kcr_1 == 8'h34) kcodereal = 8'h24;
+			else if (kcr_1 == 8'h35) kcodereal = 8'h25;
+			else if (kcr_1 == 8'h36) kcodereal = 8'h5E;
+			else if (kcr_1 == 8'h37) kcodereal = 8'h26;
+			else if (kcr_1 == 8'h38) kcodereal = 8'h2A;
+			else if (kcr_1 == 8'h39) kcodereal = 8'h28;
+			else if (kcr_1 == 8'h30) kcodereal = 8'h29;
+			else if (kcr_1 == 8'h2D) kcodereal = 8'h5F;
+			else if (kcr_1 == 8'h3D) kcodereal = 8'h2B;
 			
-			//else if (kcr_1 == 8'h60) kcodereal = 8'h7E;
-			//else if (kcr_1 == 8'h3B) kcodereal = 8'h3A;
-			//else if (kcr_1 == 8'h3B) kcodereal = 8'h3A;
-			//else if (kcr_1 == 8'h27) kcodereal = 8'h22;
+			else if (kcr_1 == 8'h60) kcodereal = 8'h7E;
+			else if (kcr_1 == 8'h3B) kcodereal = 8'h3A;
+			else if (kcr_1 == 8'h3B) kcodereal = 8'h3A;
+			else if (kcr_1 == 8'h27) kcodereal = 8'h22;
 
-			//else if (kcr_1 == 8'h2C) kcodereal = 8'h3C;
-			//else if (kcr_1 == 8'h2E) kcodereal = 8'h3E;
-			//else if (kcr_1 == 8'h2F) kcodereal = 8'h3F;
-		//end
+			else if (kcr_1 == 8'h2C) kcodereal = 8'h3C;
+			else if (kcr_1 == 8'h2E) kcodereal = 8'h3E;
+			else if (kcr_1 == 8'h2F) kcodereal = 8'h3F;
+		end
 	end
 endmodule
 
@@ -384,44 +394,4 @@ module uarttx
 			end
 		endcase
 	end
-endmodule
-
-module baud_rate_gen
-	#(
-		parameter CLOCK_FREQ = 0,
-		parameter BAUD_RATE = 0,
-		parameter SAMPLE_MULTIPLIER = 0
-	)
-    (
-        input wire clk,
-        output wire rxclk_en,
-        output wire txclk_en
-    );
-
-    parameter RX_ACC_MAX = CLOCK_FREQ / (BAUD_RATE * SAMPLE_MULTIPLIER) + 1;
-    parameter TX_ACC_MAX = CLOCK_FREQ / BAUD_RATE;
-    parameter RX_ACC_WIDTH = 16;
-    parameter TX_ACC_WIDTH = 16;
-    //parameter RX_ACC_WIDTH = $clog2(RX_ACC_MAX);
-    //parameter TX_ACC_WIDTH = $clog2(TX_ACC_MAX);
-    reg [RX_ACC_WIDTH - 1:0] rx_acc = 0;
-    reg [TX_ACC_WIDTH - 1:0] tx_acc = 0;
-
-    assign rxclk_en = (rx_acc == 0);
-    assign txclk_en = (tx_acc == 0);
-
-    always @(posedge clk) begin
-        if (rx_acc == RX_ACC_MAX[RX_ACC_WIDTH - 1:0])
-            rx_acc <= 0;
-        else
-            rx_acc <= rx_acc + 1;
-    end
-
-    always @(posedge clk) begin
-        if (tx_acc == TX_ACC_MAX[TX_ACC_WIDTH - 1:0])
-            tx_acc <= 0;
-        else
-            tx_acc <= tx_acc + 1;
-    end
-
 endmodule
