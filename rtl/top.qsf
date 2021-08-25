@@ -14,6 +14,7 @@ set_location_assignment PIN_114 -to rs
 set_location_assignment PIN_119 -to cs
 set_location_assignment PIN_120 -to rst
 set_location_assignment PIN_45 -to rx
+set_location_assignment PIN_41 -to rts
 
 set_location_assignment PIN_77 -to x[0]
 set_location_assignment PIN_76 -to x[1]

@@ -18,7 +18,7 @@ module top
 	output cs,
 	output rst,
 	input rx,
-	output dtr
+	output rts
 );
 	uart_keyboard uart_keyboard_inst(
 		.clk(clk),
@@ -38,6 +38,7 @@ module top
 		.rs(rs),
 		.cs(cs),
 		.rst(rst),
-		.rx(rx)
+		.rx(rx),
+		.rts(rts)
 	);
 endmodule

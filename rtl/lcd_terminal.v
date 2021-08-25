@@ -9,7 +9,8 @@ module lcd_terminal
 	output rs,
 	output cs,
 	output rst,
-	input rx
+	input rx,
+	output rts
 );
 	assign rst = 1;
 	assign rd = 1;
@@ -100,101 +101,6 @@ module lcd_terminal
 	wire [7:0]char = charrecv_r;
 	wire [41:0]char_pixel = 
 		char >= 8'h20 ? char_pixel_ufm :
-		//char == 8'h20 ? 42'b000000000000000000000000000000000000000000 :
-		//char == 8'h21 ? 42'b011000011000011000011000000000010000011000 :
-		//char == 8'h22 ? 42'b010100010100010100000000000000000000000000 :
-		//char == 8'h23 ? 42'b010100111110010100010100010100111110010100 :
-		//char == 8'h24 ? 42'b010000111100100000111100000100111100001000 :
-		//char == 8'h25 ? 42'b110010110100000100001000010000110110100110 :
-		//char == 8'h26 ? 42'b011000100100100000010000101010100100011010 :
-		//char == 8'h27 ? 42'b001000001000001000000000000000000000000000 :
-		//char == 8'h28 ? 42'b000100001000010000010000010000001000000100 :
-		//char == 8'h29 ? 42'b010000001000000100000100000100001000010000 :
-		//char == 8'h2a ? 42'b000000100010010100111110010100100010000000 :
-		//char == 8'h2b ? 42'b000000001000001000111110001000001000000000 :
-		//char == 8'h2c ? 42'b000000000000000000000000011000011000110000 :
-		//char == 8'h2d ? 42'b000000000000000000111110000000000000000000 :
-		//char == 8'h2e ? 42'b000000000000000000000000000000011000011000 :
-		//char == 8'h2f ? 42'b000010000110001100001000011000110000100000 :
-		//char == 8'h30 ? 42'b011100100010100010101010100010100010011100 :
-		//char == 8'h31 ? 42'b001000011000001000001000001000001000011100 :
-		//char == 8'h32 ? 42'b011100100010000010000100001000010000111110 :
-		//char == 8'h33 ? 42'b011100100010000010001100000010100010011100 :
-		//char == 8'h34 ? 42'b000100001100010100100100111110000100000100 :
-		//char == 8'h35 ? 42'b111110100000100000111100000010100010011100 :
-		//char == 8'h36 ? 42'b011100100010100000111100100010100010011100 :
-		//char == 8'h37 ? 42'b111110100010000100001000010000010000010000 :
-		//char == 8'h38 ? 42'b011100100010100010111110100010100010011100 :
-		//char == 8'h39 ? 42'b011100100010100010011110000010000100011000 :
-		//char == 8'h3a ? 42'b000000011000011000000000011000011000000000 :
-		//char == 8'h3b ? 42'b000000011000011000000000011000001000010000 :
-		//char == 8'h3c ? 42'b000100001000010000100000010000001000000100 :
-		//char == 8'h3d ? 42'b000000000000111110000000111110000000000000 :
-		//char == 8'h3e ? 42'b100000010000001000000100001000010000100000 :
-		//char == 8'h3f ? 42'b011100100010100010001100001000000000001000 :
-		//char == 8'h40 ? 42'b011100100010101110101010101110100000011100 :
-		//char == 8'h41 ? 42'b001000010100100010100010111110100010100010 :
-		//char == 8'h42 ? 42'b111100100010100010111100100010100010111100 :
-		//char == 8'h43 ? 42'b011100100010100000100000100000100010011100 :
-		//char == 8'h44 ? 42'b111100100010100010100010100010100010111100 :
-		//char == 8'h45 ? 42'b111110100000100000111100100000100000111110 :
-		//char == 8'h46 ? 42'b111110100000100000111100100000100000100000 :
-		//char == 8'h47 ? 42'b011100100010100000101110100010100010011100 :
-		//char == 8'h48 ? 42'b100010100010100010111110100010100010100010 :
-		//char == 8'h49 ? 42'b011100001000001000001000001000001000011100 :
-		//char == 8'h4a ? 42'b000100000100000100000100000100100100011000 :
-		//char == 8'h4b ? 42'b100010100100101000110000101000100100100010 :
-		//char == 8'h4c ? 42'b100000100000100000100000100000100010111110 :
-		//char == 8'h4d ? 42'b100010110110101010100010100010100010100010 :
-		//char == 8'h4e ? 42'b100010110010101010101010101010100110100010 :
-		//char == 8'h4f ? 42'b011100100010100010100010100010100010011100 :
-		//char == 8'h50 ? 42'b111100100010100010111100100000100000100000 :
-		//char == 8'h51 ? 42'b011100100010100010100010101010100100011010 :
-		//char == 8'h52 ? 42'b111100100010100010111100101000100100100010 :
-		//char == 8'h53 ? 42'b011100100010100000011100000010100010011100 :
-		//char == 8'h54 ? 42'b111110001000001000001000001000001000001000 :
-		//char == 8'h55 ? 42'b100010100010100010100010100010100010011100 :
-		//char == 8'h56 ? 42'b100010100010100010100010110110011100001000 :
-		//char == 8'h57 ? 42'b100010100010100010101010101010110110100010 :
-		//char == 8'h58 ? 42'b100010010100010100001000010100010100100010 :
-		//char == 8'h59 ? 42'b100010100010100010010100001000001000001000 :
-		//char == 8'h5a ? 42'b111110000010000100001000010000100000111110 :
-		//char == 8'h5b ? 42'b011100010000010000010000010000010000011100 :
-		//char == 8'h5c ? 42'b100000110000010000011000001100000110000010 :
-		//char == 8'h5d ? 42'b011100000100000100000100000100000100011100 :
-		//char == 8'h5e ? 42'b001000010100100010000000000000000000000000 :
-		//char == 8'h5f ? 42'b000000000000000000000000000000000000111110 :
-		//char == 8'h60 ? 42'b010000011000001100000000000000000000000000 :
-		//char == 8'h61 ? 42'b000000000000111000000100111100100100011010 :
-		//char == 8'h62 ? 42'b000000100000100000111000100100100100111000 :
-		//char == 8'h63 ? 42'b000000000000000000011100100000100000011100 :
-		//char == 8'h64 ? 42'b000000000100000100011100100100100100011000 :
-		//char == 8'h65 ? 42'b000000000000011100100010111100100000011100 :
-		//char == 8'h66 ? 42'b001100010000010000111100010000010000010000 :
-		//char == 8'h67 ? 42'b000000011100100010100110011010000010011100 :
-		//char == 8'h68 ? 42'b100000100000100000111000100100100100100100 :
-		//char == 8'h69 ? 42'b000000001000000000011000001000001000001000 :
-		//char == 8'h6a ? 42'b001000000000011000001000001000101000011000 :
-		//char == 8'h6b ? 42'b100000100000100000101000110000101000100100 :
-		//char == 8'h6c ? 42'b110000010000010000010000010000010000001100 :
-		//char == 8'h6d ? 42'b000000000000110100101010101010101010101010 :
-		//char == 8'h6e ? 42'b000000000000111000100100100100100100100100 :
-		//char == 8'h6f ? 42'b000000000000011000100100100100100100011000 :
-		//char == 8'h70 ? 42'b000000000000111000100100100100111000100000 :
-		//char == 8'h71 ? 42'b000000000000011100100100100100011100000100 :
-		//char == 8'h72 ? 42'b000000000000101100110000100000100000100000 :
-		//char == 8'h73 ? 42'b000000000000011100100000011000000100111000 :
-		//char == 8'h74 ? 42'b000000010000111100010000010000010100011000 :
-		//char == 8'h75 ? 42'b000000000000100100100100100100100100011100 :
-		//char == 8'h76 ? 42'b000000000000100100100100100100010100001000 :
-		//char == 8'h77 ? 42'b000000000000100010100010100010101010010100 :
-		//char == 8'h78 ? 42'b000000000000100100100100011000100100100100 :
-		//char == 8'h79 ? 42'b000000000000100100100100011100000100111000 :
-		//char == 8'h7a ? 42'b000000000000111100000100011000100000111100 :
-		//char == 8'h7b ? 42'b000100001000001000010000001000001000000100 :
-		//char == 8'h7c ? 42'b001000001000001000001000001000001000001000 :
-		//char == 8'h7d ? 42'b010000001000001000000100001000001000010000 :
-		//char == 8'h7e ? 42'b000000000000011010101100000000000000000000 :
 		{char[7:4], 2'b10, char[3:0], 8'b10111110, 24'b0};
 	wire curr_pixel = char_pixel[41-(cnt>>2)];
 
@@ -203,16 +109,46 @@ module lcd_terminal
 	wire [4:0]b = 5'b11111;
 
 	reg [1:0]clearing = 0;
+	reg clear_k = 0;
 	reg d_cursor = 0; // drawing or cleaning cursor
 	reg o_cursor = 0; // operation on cursor
-	wire [15:0]cas_sc = clearing != 0 ? 0 : charcol * 6;
-	wire [15:0]cas_ec = clearing != 0 ? 479 : charcol * 6 + 5;
-	wire [15:0]pas_sp = 
-		clearing == 1 ? 0  :
-		clearing == 2 ? charrow * 8 + 8 : charrow * 8 + o_cursor * 7;
-	wire [15:0]pas_ep =
-		clearing == 1 ? 319 : 
-		clearing == 2 ? charrow * 8 + 31 : charrow * 8 + 7;
+	reg [15:0]cas_sc;
+	reg [15:0]cas_ec;
+	reg [15:0]pas_sp;
+	reg [15:0]pas_ep;
+	//wire [15:0]cas_sc = clearing != 0 ? 0 : charcol * 6;
+	//wire [15:0]cas_ec = clearing != 0 ? 479 : charcol * 6 + 5;
+	//wire [15:0]pas_sp = 
+		//clearing == 1 ? 0  :
+		//clearing == 2 ? charrow * 8 + 8 : charrow * 8 + o_cursor * 7;
+	//wire [15:0]pas_ep =
+		//clearing == 1 ? 319 : 
+		//clearing == 2 ? charrow * 8 + 31 : charrow * 8 + 7;
+	always @ (*) begin
+		if (clearing == 1) begin
+			if (clear_k) begin
+				cas_sc = charcol * 6;
+				cas_ec = 479;
+				pas_sp = charrow * 8;
+				pas_ep = charrow * 8 + 7;
+			end else begin
+				cas_sc = 0;
+				cas_ec = 479;
+				pas_sp = 0;
+				pas_ep = 319;
+			end
+		end else if (clearing == 2) begin
+			cas_sc = 0;
+			cas_ec = 479;
+			pas_sp = charrow * 8 + 8;
+			pas_ep = charrow * 8 + 31;
+		end else begin
+			cas_sc = charcol * 6;
+			cas_ec = charcol * 6 + 5;
+			pas_sp = charrow * 8 + o_cursor * 7;
+			pas_ep = charrow * 8 + 7;
+		end
+	end
 
 	always @ (*) begin
 		param = 8'h00;
@@ -274,10 +210,10 @@ module lcd_terminal
 			endcase end
 			MEM_WRITE: begin
 				param = clearing != 0 ? 8'h00 : 
-					o_cursor ? (d_cursor ? 8'h07 : 8'h00) :
+					o_cursor ? (d_cursor&!cursorhide ? 8'h07 : 8'h00) :
 					(curr_pixel ? 
-					8'hff
-					//cnt[0] == 0 ? {r, g[5:3]} : {g[2:0], b}
+					//8'hff
+					cnt[0] == 0 ? {r, g[5:3]} : {g[2:0], b}
 					: 8'h00);
 			end
 		endcase
@@ -288,6 +224,7 @@ module lcd_terminal
 	localparam DBG = 0;
 	localparam N = DBG ? 1 : 800000;
 	localparam CLEAR_W_COUNT = DBG ? 10 : 2*480*320;
+	localparam CLEAR_K_COUNT = DBG ? 10 : 2*6*8*80; // overflow but doesn't matter
 	localparam CLEAR_L_COUNT = DBG ? 5 : 2*6*8*80*3;
 	localparam DRAW_C_COUNT = 2*6;
 
@@ -302,6 +239,14 @@ module lcd_terminal
 	// ? or number dropped
 	// return to 0 and execute consequence if a-zA-Z
 	reg [1:0]escaped = 0;
+	reg hasparam1;
+	reg hasparam2;
+	reg [7:0]csi_param1;
+	reg [7:0]csi_param2;
+	wire [7:0]param1 = hasparam1 ? csi_param1 : 1;
+	wire [7:0]param2 = hasparam2 ? csi_param2 : 1;
+	reg param_1or2;
+	reg cursorhide = 0;
 
 	always @ (posedge clk) begin
 		if (nextchar) nextchar <= 0;
@@ -362,6 +307,7 @@ module lcd_terminal
 					command <= 8'hC5;
 					param_num <= 4;
 					state_ret <= CLEAR_1; // GAMMA_1
+					clear_k <= 0;
 					cnt <= 0;
 				end
 				//GAMMA_1: begin
@@ -411,8 +357,17 @@ module lcd_terminal
 									charcol <= charcol_cr;
 									//charrow <= charrow_cr;
 								end
+								8'h0e: begin
+								end
+								8'h0f: begin
+								end
 								8'h1b: begin
 									escaped <= 1;
+									csi_param1 <= 0;
+									csi_param2 <= 0;
+									hasparam1 <= 0;
+									hasparam2 <= 0;
+									param_1or2 <= 0;
 								end
 								// 8'h1b
 								default: begin
@@ -424,15 +379,47 @@ module lcd_terminal
 							if (charrecv_r == 8'h5b) escaped <= 2;
 							else escaped <= 0;
 						end else if (escaped == 2) begin
-							if (charrecv_r == 8'h3f | charrecv_r == 8'h3b | (charrecv_r >= 8'h30 & charrecv_r <= 8'h39)) escaped <= 2;
-							else begin
+							if (charrecv_r >= 8'h30 & charrecv_r <= 8'h39) begin
+								if (param_1or2 == 0) begin
+									csi_param1 <= csi_param1 * 10 + (charrecv_r - 8'h30);
+									hasparam1 <= 1;
+								end else begin
+									csi_param2 <= csi_param2 * 10 + (charrecv_r - 8'h30);
+									hasparam2 <= 1;
+								end
+								escaped <= 2;
+							end else if (charrecv_r == 8'h3B) begin
+								param_1or2 <= 1; // param 3+ not supported
+								escaped <= 2;
+							end else if (charrecv_r >= 8'h30 & charrecv_r <= 8'h3f) begin
+								escaped <= 2;
+							end else begin
 								escaped <= 0;
-								//case (charrecv_r)
-									//8'h41: charrow <= charrow_up;
-									//8'h42: charrow <= charrow_below;
-									//8'h43: charcol <= charcol_next;
-									//8'h44: charcol <= charcol_bs;
-								//endcase
+								case (charrecv_r)
+									8'h41: charrow <= charrow_up; // A
+									8'h42: charrow <= charrow_lf; // B
+									8'h43: charcol <= charcol_next; // C
+									8'h44: charcol <= charcol_bs; // D
+									8'h47: charcol <= param1; // G
+									8'h4A: begin // ^[[2J
+										//if (csi_param1 == 2) begin
+											state <= CLEAR_1;
+											clear_k <= 0;
+										//end
+									end
+									8'h4B: begin // ^[[K
+										if (!hasparam1) begin
+											state <= CLEAR_1;
+											clear_k <= 1;
+										end
+									end
+									8'h48: begin
+										charrow <= param1 - 1;
+										charcol <= param2 - 1; end // H
+									8'h64: charrow <= param1; // d
+									8'h6c: if (csi_param1 == 25) cursorhide <= 1; // l
+									8'h68: if (csi_param1 == 25) cursorhide <= 0; // h
+								endcase
 							end
 						end
 					end else if (w_steps == 2) begin // returned from CLR_LINE_2
@@ -467,7 +454,7 @@ module lcd_terminal
 				CLEAR_2: begin
 					state <= SEND_C;
 					command <= MEM_WRITE;
-					param_num <= CLEAR_W_COUNT;
+					param_num <= clear_k ? CLEAR_K_COUNT : CLEAR_W_COUNT;
 					state_ret <= IDLE;
 					cnt <= 0;
 				end
@@ -645,6 +632,7 @@ module lcd_terminal
 	);
 	wire nonewchar;
 	assign hasrecv = !nonewchar;
+	// the fifo is buggy, or full as rts is not good
 	ufifo ufifo_inst(
 		.clk(clk),
 		.enq(newrecv),
@@ -652,7 +640,9 @@ module lcd_terminal
 		.deq(nextchar),
 		.dout(charrecv),
 		.empty(nonewchar)
+		//.full(rts)
 	);
+	assign rts = hasrecv;
 endmodule
 
 module ufifo // lamed uart fifo
@@ -662,12 +652,13 @@ module ufifo // lamed uart fifo
 	input [7:0]din,
 	input deq,
 	output [7:0]dout,
-	output empty
+	output empty,
+	output full
 );
 	reg [3:0]head = 0;
 	reg [3:0]tail = 0;
 	assign empty = head == tail;
-	wire full = tail+1 == head;
+	assign full = tail+1 == head;
 
 	reg [7:0]d[15:0]; // 32(31 used) buffer
 
