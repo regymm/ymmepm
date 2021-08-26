@@ -76,8 +76,8 @@ module lcd_terminal
 	reg [6:0]charcol = 0;
 	reg [5:0]charrow = 39; // begin from laaaast line
 
-	wire [6:0]charcol_next = charcol == 79 ? 79 : (charcol + 1);
-	wire [5:0]charrow_next = charrow;
+	wire [6:0]charcol_next = charcol == 79 ? 0 : (charcol + 1);
+	wire [5:0]charrow_next = charcol == 79 ? (charrow == 39 ? 0 : charrow + 1) : charrow;
 	wire clear_new_line = charcol == 79; // one position earlier, to avoid clear line clears the newly writen char
 	//wire [15:0]scroll = 39 - charrow;
 	// ^H
@@ -429,7 +429,7 @@ module lcd_terminal
 						w_steps <= 4;
 					end else if (w_steps == 3) begin // returned from WC
 						charcol <= charcol_next;
-						//charrow <= charrow_next;
+						charrow <= charrow_next;
 						state <= CAS;
 						w_steps <= 4;
 					end else if (w_steps == 4) begin

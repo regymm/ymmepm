@@ -132,8 +132,8 @@ module keyscan
 		y_r2[12] == 0 ? 4'b1100 :
 		y_r2[13] == 0 ? 4'b1101 : 4'b1111;
 	always @ (posedge clk) begin
-		if (!nopress) kcodebase <= {1'b0, 
-		!ya[5], !ya[4], !ya[3], !ya[2], !ya[1], !ya[0], 
+		if (!nopress) kcodebase <= {3'b0, 
+		!ya[10], !ya[8], !ya[1], !ya[0], 
 		kcodebase_y, kcodebase_x};
 	end
 	//+ 
@@ -153,11 +153,11 @@ module keydecode
 	//assign kcodereal = kcodebase;
 	wire [2:0]x = kcodebase[2:0];
 	wire [3:0]y = kcodebase[6:3];
-	wire shift = kcodebase[7];
-	wire ctrl = kcodebase[8];
-	wire supr = kcodebase[9];
-	wire alt = kcodebase[10];
-	wire fn = kcodebase[11];
+	wire shift = kcodebase[7] | kcodebase[9];
+	wire ctrl = kcodebase[8] | kcodebase[10];
+	//wire supr = kcodebase[9];
+	//wire alt = kcodebase[10];
+	//wire fn = kcodebase[11];
 	reg [7:0]kcr_1;
 	always @ (*) begin
 		kcr_1 = 8'h00;
@@ -238,7 +238,7 @@ module keydecode
 	end
 	always @ (*) begin
 		kcodereal = kcr_1;
-		if (ctrl) kcodereal = {2'b0, kcr_1[5:0]};
+		if (ctrl) kcodereal = {3'b0, kcr_1[4:0]};
 		else if (shift) begin
 			if (kcr_1 >= 8'h61 & kcr_1 <= 8'h7D) kcodereal = kcr_1 - 8'h20;
 			else if (kcr_1 == 8'h31) kcodereal = 8'h21;
@@ -253,9 +253,12 @@ module keydecode
 			else if (kcr_1 == 8'h30) kcodereal = 8'h29;
 			else if (kcr_1 == 8'h2D) kcodereal = 8'h5F;
 			else if (kcr_1 == 8'h3D) kcodereal = 8'h2B;
+
+			else if (kcr_1 == 8'h5B) kcodereal = 8'h7B;
+			else if (kcr_1 == 8'h5D) kcodereal = 8'h7D;
+			else if (kcr_1 == 8'h5C) kcodereal = 8'h7C;
 			
 			else if (kcr_1 == 8'h60) kcodereal = 8'h7E;
-			else if (kcr_1 == 8'h3B) kcodereal = 8'h3A;
 			else if (kcr_1 == 8'h3B) kcodereal = 8'h3A;
 			else if (kcr_1 == 8'h27) kcodereal = 8'h22;
 
@@ -352,8 +355,8 @@ module keycode2uart
 			cnth <= 0;
 		end
 	end
-	assign usend = (kpress & cnth == 16'h20 & cntlovfl) | 
-		(cnth > 16'h231 & cnth[5:0] == 6'b111111 & cntlovfl);
+	assign usend = (kpress & cnth == 16'h18 & cntlovfl) | 
+		(cnth > 16'h100 & cnth[4:0] == 5'b11111 & cntlovfl);
 endmodule
 
 module uarttx
